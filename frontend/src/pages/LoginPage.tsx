@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import AuthScene from "../components/AuthScene";
+import Spinner from "../components/Spinner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -67,8 +68,9 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-md bg-accent px-4 py-2 font-medium text-bg transition hover:opacity-90 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 font-medium text-bg transition hover:opacity-90 disabled:opacity-50"
             >
+              {loading && <Spinner />}
               {loading ? "Connexion..." : "Se connecter"}
             </button>
           </form>

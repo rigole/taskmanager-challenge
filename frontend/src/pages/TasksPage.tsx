@@ -5,6 +5,7 @@ import { getTasks, createTask, updateTask, deleteTask } from "../api/tasks";
 import type { Task, TaskStatus } from "../types/task";
 import TaskRow from "../components/TaskRow";
 import TaskForm from "../components/TaskForm";
+import TaskRowSkeleton from "../components/TaskRowSkeleton";
 
 const filters: { label: string; value: TaskStatus | "ALL" }[] = [
   { label: "Toutes", value: "ALL" },
@@ -109,11 +110,15 @@ export default function TasksPage() {
           />
         </div>
 
-        <div className="mt-6">
+       <div className="mt-6">
           {loading ? (
-            <p className="py-8 text-center text-sm text-text/40">Chargement...</p>
+            <div>
+              {[...Array(4)].map((_, i) => (
+                <TaskRowSkeleton key={i} />
+              ))}
+            </div>
           ) : tasks.length === 0 ? (
-            <p className="py-8 text-center text-sm text-text/40">Aucune tâche pour le moment.</p>
+          <p className="py-8 text-center text-sm text-text/40">Aucune tâche pour le moment.</p>
           ) : (
             tasks.map((task) => (
               <TaskRow key={task.id} task={task} onUpdate={handleUpdate} onDelete={handleDelete} />
