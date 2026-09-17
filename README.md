@@ -130,3 +130,16 @@ Un pipeline GitHub Actions (`.github/workflows/ci.yml`) valide à chaque push su
 ## Périmètre non traité
 
 - **Application mobile Flutter** : hors périmètre par choix, en raison de la contrainte de temps et d'un manque d'expérience avec ce framework.
+
+## Tests
+
+- **Backend** (JUnit 5 + Mockito) : génération/validation JWT, authentification, CRUD des tâches — avec vérification stricte de l'isolation des données par utilisateur.
+- **Frontend** (Vitest + React Testing Library) : comportement des formulaires et des interactions sur les tâches (création, édition, changement de statut, suppression).
+
+```bash
+# Backend
+cd backend && mvn test
+
+# Frontend
+cd frontend && npm test
+```
