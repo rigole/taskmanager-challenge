@@ -7,6 +7,17 @@ const statusConfig: Record<TaskStatus, { label: string; color: string }> = {
   DONE: { label: "Terminé", color: "bg-success" },
 };
 
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 interface TaskRowProps {
   task: Task;
   onUpdate: (id: string, title: string, description: string, status: TaskStatus) => void;
@@ -18,10 +29,8 @@ export default function TaskRow({ task, onUpdate, onDelete }: TaskRowProps) {
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description || "");
 
-  const cycleStatus = () => {
-    const order: TaskStatus[] = ["TODO", "IN_PROGRESS", "DONE"];
-    const next = order[(order.indexOf(task.status) + 1) % order.length];
-    onUpdate(task.id, task.title, task.description || "", next);
+  const handleStatusChange = (status: TaskStatus) => {
+    onUpdate(task.id, task.title, task.description || "", status);
   };
 
   const saveEdit = () => {
@@ -29,13 +38,11 @@ export default function TaskRow({ task, onUpdate, onDelete }: TaskRowProps) {
     setEditing(false);
   };
 
+  const wasEdited = task.updatedAt !== task.createdAt;
+
   return (
     <div className="flex items-start gap-3 border-b border-white/5 py-3">
-      <button
-        onClick={cycleStatus}
-        title="Changer le statut"
-        className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${statusConfig[task.status].color}`}
-      />
+      <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${statusConfig[task.status].color}`} />
 
       <div className="flex-1">
         {editing ? (
@@ -66,15 +73,32 @@ export default function TaskRow({ task, onUpdate, onDelete }: TaskRowProps) {
             {task.description && (
               <p className="mt-0.5 text-xs text-text/50">{task.description}</p>
             )}
-            <span className="mt-1 inline-block text-[11px] text-text/40">
-              {statusConfig[task.status].label}
-            </span>
+
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-text/40">
+              <span>Créée le {formatDate(task.createdAt)}</span>
+              {wasEdited && task.status !== "DONE" && (
+                <span>Modifiée le {formatDate(task.updatedAt)}</span>
+              )}
+              {task.status === "DONE" && (
+                <span className="text-success">Terminée le {formatDate(task.updatedAt)}</span>
+              )}
+            </div>
           </>
         )}
       </div>
 
       {!editing && (
-        <div className="flex shrink-0 gap-3">
+        <div className="flex shrink-0 items-center gap-3">
+          <select
+            value={task.status}
+            onChange={(e) => handleStatusChange(e.target.value as TaskStatus)}
+            className="rounded-md border border-white/10 bg-surface px-2 py-1 text-xs text-text outline-none focus:border-accent"
+          >
+            <option value="TODO">À faire</option>
+            <option value="IN_PROGRESS">En cours</option>
+            <option value="DONE">Terminé</option>
+          </select>
+
           <button onClick={() => setEditing(true)} className="text-xs text-text/50 hover:text-accent">
             Éditer
           </button>
