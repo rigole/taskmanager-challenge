@@ -17,3 +17,7 @@ body {
   color: var(--color-text);
   font-family: var(--font-body);
 }
+
+input {
+  color-scheme: dark;
+}

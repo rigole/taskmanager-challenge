@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import AuthScene from "../components/AuthScene";
 import Spinner from "../components/Spinner";
+import PasswordInput from "../components/PasswordInput";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -56,13 +57,12 @@ export default function LoginPage() {
 
             <div>
               <label className="block text-sm font-medium text-text/80">Mot de passe</label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-md border border-white/10 bg-surface px-3 py-2 text-text outline-none focus:border-accent"
-              />
+               <PasswordInput
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-1 w-full rounded-md border border-white/10 bg-surface px-3 py-2 text-text outline-none focus:border-accent"
+                />
             </div>
 
             <button

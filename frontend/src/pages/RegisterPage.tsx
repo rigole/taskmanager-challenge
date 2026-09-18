@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import AuthScene from "../components/AuthScene";
+import PasswordInput from "../components/PasswordInput";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -63,20 +64,18 @@ export default function RegisterPage() {
 
             <div>
               <label className="block text-sm font-medium text-text/80">Mot de passe</label>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 w-full rounded-md border border-white/10 bg-surface px-3 py-2 text-text outline-none focus:border-accent"
+              <PasswordInput
+                  required
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-1 w-full rounded-md border border-white/10 bg-surface px-3 py-2 text-text outline-none focus:border-accent"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-text/80">Confirmer le mot de passe</label>
-              <input
-                type="password"
+              <PasswordInput
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
