@@ -45,6 +45,11 @@ Le backend expose une API REST stateless sécurisée par JWT. Chaque utilisateur
 - Affichage des dates de création, modification et complétion
 - Isolation stricte des données par utilisateur
 
+## Aperçu
+
+![Login](docs/screenshots/login.png)
+![Dashboard](docs/screenshots/dashboard.png)
+
 ## Installation et exécution
 
 ### Prérequis
